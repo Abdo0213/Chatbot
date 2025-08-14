@@ -1,0 +1,68 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# =========================
+# Environment & Config
+# =========================
+.env
+.env.*
+*.ini
+*.toml
+*.cfg
+
+# =========================
+# Virtual Environment
+# =========================
+venv/
+.venv/
+env/
+ENV/
+venv.bak/
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# Logs & Debug
+# =========================
+*.log
+*.tmp
+*.temp
+*.bak
+*.pid
+
+# =========================
+# LangChain Persistent Memory
+# =========================
+histories/
+*.json
+
+# =========================
+# OS Specific
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Tests
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
