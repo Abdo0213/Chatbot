@@ -30,7 +30,7 @@ The chatbot can read and process resumes (CVs), store embeddings in a Chroma vec
 
 1- Clone the repository:
 
-  - git clone https://github.com/yourusername/rag-chatbot.git
+  - git clone https://github.com/Abdo0213/rag-chatbot
   - cd rag-chatbot
 
 
