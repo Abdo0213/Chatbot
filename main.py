@@ -13,8 +13,8 @@ load_dotenv()
 app = FastAPI()
 
 LLM_MODEL = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
-api_key = os.getenv("api_key")
-client = Together(api_key=api_key)
+TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
+client = Together(api_key=TOGETHER_API_KEY)
 
 class Chat_Request(BaseModel):
     user_id: str
@@ -26,7 +26,7 @@ class Chat_Response(BaseModel):
 # Create Together AI LLM wrapper
 llm = ChatTogether(
     model=LLM_MODEL,
-    api_key=api_key,
+    api_key=TOGETHER_API_KEY,
     temperature=0.7
 )
 
