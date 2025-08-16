@@ -1,10 +1,12 @@
 import streamlit as st
-import time
+import requests
 
 st.set_page_config(page_title="Chatbot", page_icon="🤖", layout="centered") 
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+if "processing" not in st.session_state:
+    st.session_state.processing = False
 
 st.markdown(""" 
     <style>
@@ -109,7 +111,8 @@ st.markdown("""
 
 st.title("🤖 Chatbot - Abdelrahman Ahmed Sobhy") 
 
-for msg in st.session_state.messages: 
+# Display all messages including any in-progress ones
+for i, msg in enumerate(st.session_state.messages):
     if msg["role"] == "user": 
         st.markdown(f""" 
         <div class='chat-container'> 
@@ -129,29 +132,52 @@ for msg in st.session_state.messages:
                 <div class='bot-bubble'>{msg['content']}</div> 
             </div> 
         </div> 
-        """, unsafe_allow_html=True) 
+        """, unsafe_allow_html=True)
 
-user_input = st.chat_input("Type your message here...") 
-if user_input: 
-    st.session_state.messages.append({"role": "user", "content": user_input}) 
-    
-    with st.empty():
-        st.markdown(f""" 
-        <div class='chat-container'> 
-            <div class='message'> 
-                <div class='botIcon'>🤖</div> 
-                <div class='bot-bubble'>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div class="spinner">🤔</div>
-                        <span>Thinking...</span>
-                    </div>
-                </div> 
+# Show thinking animation if processing
+if st.session_state.processing:
+    st.markdown(f""" 
+    <div class='chat-container'> 
+        <div class='message'> 
+            <div class='botIcon'>🤖</div> 
+            <div class='bot-bubble'>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="spinner">🤔</div>
+                    <span>Thinking...</span>
+                </div>
             </div> 
         </div> 
-        """, unsafe_allow_html=True)
+    </div> 
+    """, unsafe_allow_html=True)
+
+user_input = st.chat_input("Type your message here...") 
+if user_input and not st.session_state.processing:
+    # Add user message immediately
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    st.session_state.processing = True
+    st.rerun()  # Changed from experimental_rerun() to rerun()
+
+# This runs after the rerun when processing is True
+if st.session_state.processing and st.session_state.messages[-1]["role"] == "user":
+    # Get the last user message
+    user_message = st.session_state.messages[-1]["content"]
+    
+    # Get bot response
+    try:
+        response = requests.post(
+            "http://127.0.0.1:8000/ask2",
+            json={"question": user_message},
+            timeout=10
+        )
         
-        time.sleep(1.5)
-        
-    bot_response = f"You said: {user_input}"
-    st.session_state.messages.append({"role": "bot", "content": bot_response}) 
-    st.rerun()
+        if response.status_code == 200:
+            bot_response = response.json()["answer"]
+        else:
+            bot_response = "Sorry, I encountered an error processing your request."
+    except Exception as e:
+        bot_response = f"Error connecting to the bot service: {str(e)}"
+    
+    # Add bot response and reset processing flag
+    st.session_state.messages.append({"role": "bot", "content": bot_response})
+    st.session_state.processing = False
+    st.rerun() 
