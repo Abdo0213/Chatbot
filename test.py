@@ -4,9 +4,9 @@ import os
 
 load_dotenv()
 
-# api_key = os.getenv("api_key")
+# TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
 
-# client = Together(api_key=api_key)
+# client = Together(api_key=TOGETHER_API_KEY)
 
 # response = client.chat.completions.create(
 #     model="meta-llama/Llama-Vision-Free",
@@ -21,8 +21,8 @@ load_dotenv()
 
 
 # import cohere
-# api_key_cohere = os.getenv("api_key_cohere")
-# co = cohere.ClientV2(api_key_cohere)
+# COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+# co = cohere.ClientV2(COHERE_API_KEY)
 # response = co.chat(
 #     model="command-a-03-2025", 
 #     messages=[{"role": "user", "content": "hello world!"}]
