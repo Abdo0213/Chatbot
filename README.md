@@ -71,6 +71,7 @@ GOOGLE_API_KEY=your_google_api_key
   
   
 (replace rag with rag2 if you’re using rag2.py)
+(replace rag with rag3 if you will use the part of admin panel from front to not get errors)
 
 2️⃣ Start the Frontend
 
